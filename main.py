@@ -14,10 +14,14 @@ class Point(object):
         self.def_x = x
         self.x = x
         self.y = y
+        self.def_y = y
 
     def move(self, px, py):
-        if abs(py - self.y) < 100 and abs(px - self.x) < 100:
-            self.y += (py - self.y) / 10
+        if abs(py - self.def_y) < 50 and abs(px - self.x) < 100:
+            self.y += (py - self.y) / max(abs(px - self.x), 1)
+        else:
+            self.x += (self.def_x - self.x) / 20
+            self.y += (self.def_y - self.y) / 20
 
     def display(self, screen):
         pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), 1)
@@ -26,7 +30,7 @@ class Point(object):
 running = True
 objects = []
 for i in range(WINDOW_SIZE[0]):
-    objects.append(Point(i, 100))
+    objects.append(Point(i, 200))
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
