@@ -20,12 +20,22 @@ class Point(object):
         self.time = 0
 
     def move(self, px, py, gravity):
-        if abs(py - self.def_y) < 50 and abs(px - self.def_x) < 100:
-            self.y += (py - self.y) / max(abs(px - self.x), 1)
-            self.time += 1
-        else:
-            self.y += (self.def_y - self.y) / 20
-            self.time = 0
+        if abs(gravity) > 1:
+            if gravity > 0:
+                if py > self.def_y:
+                    if abs(py - self.def_y) < 50 and abs(px - self.def_x) < 100:
+                        self.y += ((py - self.y) + gravity) / max(abs(px - self.x), 1)
+                        self.time += 1
+                        return
+            else:
+                if py < self.def_y:
+                    if abs(py - self.def_y) < 50 and abs(px - self.def_x) < 100:
+                        self.y += ((py - self.y) + gravity) / max(abs(px - self.x), 1)
+                        self.time += 1
+                        return
+
+        self.y += (self.def_y - self.y) / 20
+        self.time = 0
 
     def display(self, screen):
         pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), 1)
@@ -37,7 +47,7 @@ player.load_animations("animations/player.json")
 player.set_action("idle")
 tiles = []
 for i in range(30):
-    tiles.append(["1", pygame.Rect(i * 16, 220, 16, 16)])
+    tiles.append(["1", pygame.Rect(i * 16, 250, 16, 16)])
 objects = []
 for i in range(WINDOW_SIZE[0]):
     objects.append(Point(i, 200))
@@ -55,7 +65,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 if player.air_time < 6:
-                    player.gravity = -3
+                    player.gravity = -6
             if event.key == pygame.K_RIGHT:
                 player.right = True
             if event.key == pygame.K_LEFT:
