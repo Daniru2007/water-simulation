@@ -17,7 +17,6 @@ class Point(object):
         self.x = x
         self.y = y
         self.def_y = y
-        self.time = 0
 
     def move(self, px, py, gravity):
         if abs(gravity) > 1:
@@ -25,17 +24,14 @@ class Point(object):
                 if py > self.def_y:
                     if abs(py - self.def_y) < 50 and abs(px - self.def_x) < 100:
                         self.y += ((py - self.y) + gravity) / max(abs(px - self.x), 1)
-                        self.time += 1
                         return
             else:
                 if py < self.def_y:
                     if abs(py - self.def_y) < 50 and abs(px - self.def_x) < 100:
                         self.y += ((py - self.y) + gravity) / max(abs(px - self.x), 1)
-                        self.time += 1
                         return
 
         self.y += (self.def_y - self.y) / 20
-        self.time = 0
 
     def display(self, screen):
         pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), 1)
@@ -52,7 +48,7 @@ objects = []
 for i in range(WINDOW_SIZE[0]):
     objects.append(Point(i, 200))
 while running:
-    if player.y < 205:
+    if player.y < 210:
         player.gravity += 0.2
         if player.gravity > 2:
             player.gravity = 2
@@ -89,7 +85,7 @@ while running:
     for tile in tiles:
         screen.blit(pygame.image.load("imgs/ground.png"), tile[1])
     for object in objects:
-        object.move(player.x+ 8, player.y+8, player.gravity)
+        object.move(player.x+8, player.y+8, player.gravity)
         object.display(screen)
 
     collisions = player.move(tiles)
