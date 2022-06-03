@@ -24,8 +24,8 @@ class Entity(object):
         self.animation_database = {}
         self.x_vel = 0
         self.vel = 3
-        self.right = [False, False]
-        self.left = [False, False]
+        self.right = False
+        self.left = False
         self.air_time = 0
         self.lose = False
         self.health = 10
