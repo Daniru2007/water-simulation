@@ -52,9 +52,14 @@ objects = []
 for i in range(WINDOW_SIZE[0]):
     objects.append(Point(i, 200))
 while running:
-    player.gravity += 0.2
-    if player.gravity > 2:
-        player.gravity = 2
+    if player.y < 205:
+        player.gravity += 0.2
+        if player.gravity > 2:
+            player.gravity = 2
+    else:
+        player.gravity += 0.2
+        if player.gravity > 1:
+            player.gravity = 1
 
     player.air_time += 1
     player.movement = [0,0]
@@ -75,6 +80,7 @@ while running:
                 player.right = False
             if event.key == pygame.K_LEFT:
                 player.left = False
+    player.movement[1] = player.gravity
     screen.fill((0, 0, 0))
     if player.right:
         player.movement[0] = 3
@@ -86,7 +92,6 @@ while running:
         object.move(player.x+ 8, player.y+8, player.gravity)
         object.display(screen)
 
-    player.movement[1] = player.gravity
     collisions = player.move(tiles)
     if collisions["bottom"]:
         player.gravity = 0
